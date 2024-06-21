@@ -2,6 +2,8 @@ package com.ovindupeiris.Expense.Tracker.entity;
 
 import com.ovindupeiris.Expense.Tracker.enums.AccountType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,9 +21,13 @@ public class Account {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotNull
+    @NotBlank(message = "Account name cannot be empty")
     @Column(name = "name", nullable = false)
     private Long name;
 
+    @NotNull
+    @NotBlank(message = "Account type invalid")
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private AccountType type;
@@ -29,6 +35,8 @@ public class Account {
     @Column(name = "balance", nullable = false)
     private Double balance;
 
+    @NotNull
+    @NotBlank(message = "Currency cannot be empty")
     @Column(name = "currency", nullable = false)
     private String currency;
 
