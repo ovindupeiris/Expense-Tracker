@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class SuccessResponse {
-    private Integer status;
+    private String status;
     private Object data;
 }
