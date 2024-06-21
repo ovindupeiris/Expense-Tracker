@@ -9,8 +9,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -25,7 +23,7 @@ public class Account {
     @NotNull
     @NotBlank(message = "Account name cannot be empty")
     @Column(name = "name", nullable = false)
-    private Long name;
+    private String name;
 
     @NotNull
     @NotBlank(message = "Account type invalid")
@@ -45,11 +43,8 @@ public class Account {
     @Column(name = "created_date")
     private Instant createdDate;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToMany(mappedBy = "account", cascade = CascadeType.REFRESH, orphanRemoval = true)
-    private List<Transaction> transactions = new ArrayList<>();
 
 }

@@ -1,5 +1,6 @@
 package com.ovindupeiris.Expense.Tracker.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ovindupeiris.Expense.Tracker.enums.TransactionType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -40,10 +41,6 @@ public class Transaction {
     @Column(name = "amount", nullable = false)
     private Double amount;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "account_id")
-    private Account account;
-
     @Value("${some.key:false}")
     @Column(name = "recurring", nullable = false)
     private Boolean recurring;
@@ -59,5 +56,10 @@ public class Transaction {
     @CreatedDate
     @Column(name = "created_date")
     private Instant createdDate;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
 }
