@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +40,9 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    @Column(name = "created_date")
+    private Instant createdDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, orphanRemoval = true)
     private List<Account> accounts = new ArrayList<>();

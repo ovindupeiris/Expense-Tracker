@@ -7,7 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Getter
@@ -54,8 +56,8 @@ public class Transaction {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    @Column(name = "created_date")
+    private Instant createdDate;
 
 }

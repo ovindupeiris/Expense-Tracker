@@ -6,8 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +41,9 @@ public class Account {
     @Column(name = "currency", nullable = false)
     private String currency;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @CreatedDate
+    @Column(name = "created_date")
+    private Instant createdDate;
 
     @ManyToOne(cascade = CascadeType.REFRESH, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
