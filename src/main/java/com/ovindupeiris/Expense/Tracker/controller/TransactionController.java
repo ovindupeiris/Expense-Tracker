@@ -26,25 +26,42 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/{userid}")
-    public ResponseEntity<?> getUserTransaction(@PathVariable("userid") Long userid) throws ResourceNotFoundException{
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTrasactionById(@PathVariable("id") Long id){
+        try{
+            Transaction transaction = transactionService.getTransaction(id);
+            SuccessResponse response = new SuccessResponse();
+            response.setStatus(Error.SUCCESS.getStatus());
+            response.setData(transaction);
+            return ResponseEntity.ok().body(response);
+
+        }catch (Exception ex){
+            ErrorResponse error = new ErrorResponse();
+            error.setStatus(Error.GENERAL_ERROR.getStatus());
+            error.setError(ex.getLocalizedMessage());
+            return ResponseEntity.internalServerError().body(error);
+        }
+    }
+
+    @GetMapping("/user/{userid}")
+    public ResponseEntity<?> getUserTransaction(@PathVariable("userid") Long userid) throws ResourceNotFoundException {
         try {
             List<Transaction> transactions = transactionService.getUserTransactions(userid);
-            if (!transactions.isEmpty()){
+            if (!transactions.isEmpty()) {
                 SuccessResponse response = new SuccessResponse();
                 response.setStatus(Error.SUCCESS.getStatus());
                 response.setData(transactions);
                 return ResponseEntity.ok().body(response);
-            }else {
+            } else {
                 ErrorResponse error = new ErrorResponse();
                 error.setStatus(Error.NO_TRANSACTIONS_FOUND.getStatus());
                 error.setError(Error.NO_TRANSACTIONS_FOUND.getDescription());
-                return ResponseEntity.ok().body(error);
+                return ResponseEntity.status(404).body(error);
             }
-        }catch (ResourceNotFoundException ex){
+        } catch (Exception ex) {
             ErrorResponse error = new ErrorResponse();
-            error.setStatus(ex.getCode());
-            error.setError(ex.getMessage());
+            error.setStatus(Error.GENERAL_ERROR.getStatus());
+            error.setError(ex.getLocalizedMessage());
             return ResponseEntity.internalServerError().body(error);
         }
     }

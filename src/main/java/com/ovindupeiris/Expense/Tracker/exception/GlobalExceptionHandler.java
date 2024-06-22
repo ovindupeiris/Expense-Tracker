@@ -1,5 +1,6 @@
 package com.ovindupeiris.Expense.Tracker.exception;
 
+import com.ovindupeiris.Expense.Tracker.enums.Error;
 import com.ovindupeiris.Expense.Tracker.model.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
         ErrorResponse error = new ErrorResponse();
-        error.setStatus(String.valueOf(ex.hashCode()));
+        error.setStatus(Error.GENERAL_ERROR.getStatus());
         error.setError(ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
